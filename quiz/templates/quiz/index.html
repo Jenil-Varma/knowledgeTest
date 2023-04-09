@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Knowledge Test</title>
+    <style>
+        body{
+            font-family: Calibri;
+        }
+        button{
+            width: 100px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h2>RASVEL'S KNOWLEDGE TEST</h2>
+    <form method = "POST" action="{% url 'quiz-homepage' %}">
+        {% csrf_token %}
+        <label for="username">Username: </label><br>
+        <input type="text"></input><br><br>
+        <label for="password">Password:  </label><br>
+        <input type="password"></input><br><br>
+        <button type="submit">Login</button>
+        <a href="{% url 'registration' %}">Create an Account</a>
+    </form>
+</body>
+</html>
