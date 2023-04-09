@@ -15,12 +15,12 @@ def user_login(request):
         password = request.POST['password']
         user = User.authenticate(username, password)
         if user is not None:
-            return redirect('quiz-homepage')
+            login(request, user)
+            return redirect(reverse('quiz-homepage'))
         else:
-            print('Here2')
-            return render(request, 'index.html', {'error_message': 'Invalid login'})
+            return render(request, 'quiz/index.html', {'error_message': 'Invalid login'})
     else:
-        return redirect(request, 'index.html')
+        return render(request, 'quiz/index.html')
 
 
 def registration(request):

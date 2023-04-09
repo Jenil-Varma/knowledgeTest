@@ -11,16 +11,22 @@
             width: 100px;
             font-weight: bold;
         }
+        p{
+            color: red;
+        }
     </style>
 </head>
 <body>
     <h2>RASVEL'S KNOWLEDGE TEST</h2>
-    <form method = "POST" action="{% url 'quiz-homepage' %}">
+    <form method = "POST" action="{% url 'user_login' %}">
         {% csrf_token %}
         <label for="username">Username: </label><br>
-        <input type="text"></input><br><br>
+        <input type="text" name="username" id="username"></input><br><br>
         <label for="password">Password:  </label><br>
-        <input type="password"></input><br><br>
+        <input type="password" name="password" id="password"></input><br><br>
+        {% if error_message %}
+        <p>{{ error_message }}</p>
+        {% endif %}
         <button type="submit">Login</button>
         <a href="{% url 'registration' %}">Create an Account</a>
     </form>
