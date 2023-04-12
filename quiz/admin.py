@@ -1,14 +1,9 @@
 from django.contrib import admin
+from .models import Topic, Question, Choice, Quiz
 
-from .models import User, Question, Choice, QuizResult
+# Register your models here.
 
-
-class UserDetail(admin.ModelAdmin):
-    list_display = ('full_name', 'username', 'hide_password')
-
-
-admin.site.register(User, UserDetail)
+admin.site.register(Topic)
 admin.site.register(Question)
 admin.site.register(Choice)
-admin.site.register(QuizResult)
-
+admin.site.register(Quiz)
