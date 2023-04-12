@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Signup</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <div class="form-group">
+      <label for="{{ form.full_name.id_for_label }}">Full Name</label>
+      {{ form.full_name }}
+    </div>
+    <button type="submit">Signup</button>
+  </form>
+{% endblock %}
