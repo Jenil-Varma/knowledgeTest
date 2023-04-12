@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import User
+from .models import User, Question, Choice, QuizResult
 
 
 class UserDetail(admin.ModelAdmin):
@@ -8,4 +8,7 @@ class UserDetail(admin.ModelAdmin):
 
 
 admin.site.register(User, UserDetail)
+admin.site.register(Question)
+admin.site.register(Choice)
+admin.site.register(QuizResult)
 
