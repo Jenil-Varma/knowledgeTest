@@ -34,3 +34,7 @@ def registration(request):
 
 def quiz_homepage(request):
     return render(request, 'quiz/quiz-homepage.html')
+
+
+def take_a_quiz(request):
+    return render(request, 'quiz/take-a-quiz.html')

@@ -1,37 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Knowledge Test</title>
-    <style>
-        body{
-            font-family: Calibri;
-        }
-        button{
-            width: 100px;
-            font-weight: bold;
-        }
-        p{
-            color: red;
-        }
-    </style>
-</head>
-<body>
-    <h2>RASVEL'S KNOWLEDGE TEST</h2>
-    {% if not user.is_authenticated %}
-    <a href="{% url 'login' %}">Login</a>
-    {% endif %}
-    <form method = "POST" action="{% url 'user_login' %}">
-        {% csrf_token %}
-        <label for="username">Username: </label><br>
-        <input type="text" name="username" id="username"></input><br><br>
-        <label for="password">Password:  </label><br>
-        <input type="password" name="password" id="password"></input><br><br>
-        {% if error_message %}
-        <p>{{ error_message }}</p>
-        {% endif %}
-        <button type="submit">Login</button>
-        <a href="{% url 'registration' %}">Create an Account</a>
-    </form>
-</body>
-</html>
+{% extends 'base.html' %}
+{% block content %}
+    <p>This is the index page of quiz</p>
+    <p>
+    The average score for all quizzes should be displayed.
+The highest and lowest scores should also be displayed.
+</p>
+{% endblock %}
