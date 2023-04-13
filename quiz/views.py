@@ -1,40 +1,95 @@
-from django.http import HttpResponse
-from django.shortcuts import render, redirect, reverse
-from django.contrib.auth import authenticate, login
+import random
+
 from django.contrib.auth.decorators import login_required
-from .models import User
+from django.http import HttpResponse
+from django.shortcuts import render, redirect, reverse, get_object_or_404
+from .models import Topic, Question, Quiz, Choice, QuizQuestion
+from django.contrib import messages
 
-
+@login_required
 def index(request):
     return render(request, 'quiz/index.html')
 
-
-def user_login(request):
+@login_required
+def select_topic(request):
+    topics = Topic.objects.all()
     if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        user = User.authenticate(username, password)
-        if user is not None:
-            login(request, user)
-            return redirect(reverse('quiz-homepage'))
-        else:
-            return render(request, 'quiz/index.html', {'error_message': 'Invalid login'})
+        selected_topic_id = request.POST.get('topic_id')
+        return redirect('quiz:take_quiz', topic_id=selected_topic_id)
+    context = {
+        'topics': topics,
+    }
+    return render(request, 'quiz/select-topic.html', context)
+
+
+@login_required
+def take_quiz(request):
+    topic_id = request.GET.get('topic')
+    topic = get_object_or_404(Topic, pk=topic_id)
+    questions = Question.objects.filter(topic=topic)
+    if questions.count() > 5:
+        random_questions = random.sample(list(questions), 5)
     else:
-        return render(request, 'quiz/index.html')
+        random_questions = questions
+    context = {
+        'topic': topic,
+        'questions': random_questions,
+    }
+    return render(request, 'quiz/take-a-quiz.html', context)
 
 
-def registration(request):
+@login_required
+def submit_quiz(request):
     if request.method == 'POST':
-        full_name = request.POST['full_name']
-        username = request.POST['username']
-        password = request.POST['password']
-        User.objects.create(full_name=full_name, username=username, password=password)
-        return redirect(reverse('quiz-homepage'))
-    return render(request, 'quiz/registration.html')
+        # Get the topic from the form
+        topic_id = request.POST.get('topic_id')
+        topic = get_object_or_404(Topic, pk=topic_id)
+        questions = []
+        # Get the questions from the form
+        for key, value in request.POST.items():
+            if key.startswith('question'):
+                question_id = int(key[8:])
+                questions.append(get_object_or_404(Question, pk=question_id))
 
-def quiz_homepage(request):
-    return render(request, 'quiz/quiz-homepage.html')
+        choices = []
+        # Get the answers from the form and calculate the score
+        score = 0
+        for question in questions:
+            answer_id = request.POST.get(f'answer{question.id}')  # get the selected answer id
+            if answer_id is not None:
+                choice = get_object_or_404(Choice, pk=answer_id) # get the answer object
+                choices.append(choice)
+                if choice.correct_option is True:
+                    score += 1
+            else:
+                choices.append(None)
+
+        # Create a Quiz object for the user
+        quiz = Quiz.objects.create(user=request.user, score=score)
+        quiz.save()
+
+        # Create a list of QuizQuestion for the user
+        for i in range(len(questions)):
+            quiz_question = QuizQuestion.objects.create(quiz=quiz, question=questions[i], user_answer=choices[i])
+            quiz_question.save()
+
+        return redirect('quiz:quiz_result', quiz_id=quiz.id)
+    else:
+        return redirect('quiz:select_topic')
 
 
-def take_a_quiz(request):
-    return render(request, 'quiz/take-a-quiz.html')
+@login_required
+def quiz_results(request, quiz_id):
+    quiz = get_object_or_404(Quiz, pk=quiz_id)
+    if quiz.user.id == request.user.id:
+        quiz_questions = QuizQuestion.objects.filter(quiz=quiz)
+        topic_id = quiz_questions[0].question.topic.id
+        topic_name = Topic.objects.get(id=topic_id)
+        context = {
+            'topic_name': topic_name,
+            'quiz': quiz,
+            'quiz_questions': quiz_questions,
+        }
+        return render(request, 'quiz/results.html', context)
+    else:
+        return redirect('home:error')

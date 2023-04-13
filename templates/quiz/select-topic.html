@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Select a topic to take the quiz</h1>
+    <form method="GET" action="{% url 'quiz:take_quiz' %}">
+        {% csrf_token %}
+        <label for="topic">Topic:</label>
+        <select name="topic" id="topic">
+            {% for topic in topics %}
+                <option value="{{ topic.id }}">{{ topic.topic_name }}</option>
+            {% endfor %}
+        </select>
+        <br><br>
+        <button type="submit">Start Quiz</button>
+    </form>
+{% endblock %}

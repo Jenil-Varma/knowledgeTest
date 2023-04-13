@@ -1,5 +1,29 @@
 {% extends 'base.html' %}
-{% block content %}
-    <p>This is the 'take a quiz' page</p>
 
+{% block content %}
+  <h1>Take a Quiz</h1>
+  <h2>{{ topic.topic_name }}</h2>
+  <form method="post" action="{% url 'quiz:submit_quiz'%}">
+    {% csrf_token %}
+      <input hidden="hidden" id="topic_id" name="topic_id" value="{{ topic.id }}">
+    {% for question in questions %}
+      <h3>{{ question.question_text }}</h3>
+        <input hidden="hidden" id="question{{ question.pk }}" name="question{{ question.pk }}" value="{{ question.pk }}">
+      {% for choice in question.choice_set.all %}
+        <div>
+          <input required type="radio" id="choice{{ choice.pk }}" name="answer{{ question.pk }}" value="{{ choice.pk }}">
+          <label for="choice{{ choice.pk }}">{{ choice.option_text }}</label>
+        </div>
+      {% endfor %}
+      <br>
+    {% endfor %}
+    <button type="submit">Submit Quiz</button>
+  </form>
+     <div>
+        {% block result_content %}
+        {% endblock %}
+    </div>
 {% endblock %}
+
+
+
