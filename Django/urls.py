@@ -20,9 +20,11 @@ from django.contrib.auth import views as auth_views
 
 from Django import views
 
+app_name = "home"
 urlpatterns = [
     path('quiz/', include('quiz.urls')),
     path('account/', include('accounts.urls')),
     path('admin/', admin.site.urls),
     path('', views.home, name='home'),
+    path('error/', views.error, name='error'),
 ]

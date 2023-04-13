@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.conf import settings
 
+
 class Topic(models.Model):
     topic_name = models.CharField(max_length=100)
 
@@ -12,6 +13,7 @@ class Topic(models.Model):
 class Question(models.Model):
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
     question_text = models.CharField(max_length=100)
+    pub_date = models.DateTimeField("date published")
 
     def __str__(self):
         return self.question_text
@@ -27,11 +29,18 @@ class Choice(models.Model):
 
 
 class Quiz(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     score = models.IntegerField()
-    datetime = models.DateTimeField(auto_now_add=True)
-    user_answer = models.ForeignKey(Choice, on_delete=models.CASCADE)
+    quiz_date = models.DateTimeField("Quiz date", auto_now_add=True)
 
     def __str__(self):
-        return str(self.user) + ': ' + str(self.question)
+        return str(self.user) + ': ' + str(self.score)
+
+
+class QuizQuestion(models.Model):
+    quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    user_answer = models.ForeignKey(Choice, on_delete=models.CASCADE, null=True, blank=True)
+
+    def __str__(self):
+        return str(self.question)

@@ -46,7 +46,7 @@
             <ul>
                 {% if user.is_authenticated %}
                     <li><a href="{% url 'quiz:index' %}">Home</a></li>
-                    <li><a href="{% url 'quiz:take_a_quiz' %}">Take a quiz</a></li>
+                    <li><a href="{% url 'quiz:select_topic' %}">Take a quiz</a></li>
 {#                    <li><a href="{% url 'quiz:results' %}">Results</a></li>#}
                     <li><a href="{% url 'account:logout' %}">Logout</a></li>
                 {% else %}
