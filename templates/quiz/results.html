@@ -9,8 +9,8 @@
   <h1>Quiz Results</h1>
   <div class="result-container">
     <h2>Topic: {{ topic_name }}</h2>
-    <h2>Your score: {{ quiz.score }}/5</h2>
-    <h2>Questions:</h2>
+    <h3>Your score: {{ quiz.score }}/5 - {% if quiz.score == 0 or quiz.score == 1 or quiz.score == 2 %}<a href="{% url 'quiz:select_topic' %}">Please try again!</a>{% elif quiz.score == 3 %}Good job!{% elif quiz.score == 4 %}Excellent work!{% else %}You are a genius!{% endif %}</h3>
+    <h3>Questions:</h3>
 
     <ul class="result-list">
       {% for qq in quiz_questions %}
