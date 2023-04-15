@@ -50,6 +50,9 @@
                 border-radius: 5px;
                 box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
             }
+            #welcome {
+                font-size: 0.7em;
+            }
         </style>
 </head>
 <body>
@@ -62,6 +65,7 @@
                     <li><a href="{% url 'quiz:select_topic' %}">Take a quiz</a></li>
 {#                    <li><a href="{% url 'quiz:results' %}">Results</a></li>#}
                     <li><a href="{% url 'account:logout' %}">Logout</a></li>
+                    <li>| Welcome, <a href="{% url 'account:profile' %}">{{ user.first_name }}</a></li>
                 {% else %}
                     <li><a href="{% url 'account:login' %}">Login</a></li>
                     <li><a href="{% url 'account:signup' %}">Signup</a></li>
