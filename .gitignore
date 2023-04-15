@@ -5,3 +5,4 @@ accounts/migrations/__pycache__/
 quiz/__pycache__/
 quiz/migrations/__pycache__/
 quiz/migrations/
+__pycache__/

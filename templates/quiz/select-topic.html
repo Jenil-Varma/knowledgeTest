@@ -1,4 +1,8 @@
 {% extends 'base.html' %}
+{% load static %}
+{% block head %}
+  <link rel="stylesheet" type="text/css" href="{% static 'css/select-topic.css' %}">
+{% endblock %}
 
 {% block content %}
     <h1>Select a topic to take the quiz</h1>

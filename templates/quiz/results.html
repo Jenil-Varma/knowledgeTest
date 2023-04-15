@@ -1,29 +1,37 @@
 {% extends 'base.html' %}
 
+{% load static %}
+{% block head %}
+  <link rel="stylesheet" type="text/css" href="{% static 'css/quiz-results.css' %}">
+{% endblock %}
+
 {% block content %}
   <h1>Quiz Results</h1>
+  <div class="result-container">
     <h2>Topic: {{ topic_name }}</h2>
-  <h2>Your score: {{ quiz.score }}/5</h2>
-  <h2>Questions:</h2>
-    
-    <ul>
-    {% for qq in quiz_questions %}
-  <h3>{{ qq.question.question_text }}</h3>
-  {% for choice in qq.question.choice_set.all %}
-    <div>
-      {% if choice.correct_option %}
-        <label style="background-color: green">
-      {% elif choice.id == qq.user_answer.id %}
-        <label style="background-color: red">
-      {% else %}
-        <label>
-      {% endif %}
-      <input type="radio" readonly disabled="disabled" id="choice{{ choice.pk }}" name="answer{{ qq.question.pk }}" value="{{ choice.pk }}">
-      {{ choice.option_text }}</label>
-    </div>
-  {% endfor %}
-  <br>
-{% endfor %}
+    <h2>Your score: {{ quiz.score }}/5</h2>
+    <h2>Questions:</h2>
 
-  </ul>
-{% endblock %}
+    <ul class="result-list">
+      {% for qq in quiz_questions %}
+      <li>
+        <h3>{{ qq.question.question_text }}</h3>
+        {% for choice in qq.question.choice_set.all %}
+        <div class="result-choice">
+          {% if choice.correct_option %}
+          <label class="result-correct">
+            {% elif choice.id == qq.user_answer.id %}
+            <label class="result-incorrect">
+              {% else %}
+              <label>
+                {% endif %}
+                <input type="radio" readonly disabled="disabled" id="choice{{ choice.pk }}" name="answer{{ qq.question.pk }}" value="{{ choice.pk }}">
+                {{ choice.option_text }}</label>
+            </div>
+            {% endfor %}
+            <br>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endblock %}
