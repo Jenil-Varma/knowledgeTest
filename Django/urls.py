@@ -20,7 +20,7 @@ from django.contrib.auth import views as auth_views
 
 from Django import views
 
-app_name = "home"
+app_name = "root"
 urlpatterns = [
     path('quiz/', include('quiz.urls')),
     path('account/', include('accounts.urls')),

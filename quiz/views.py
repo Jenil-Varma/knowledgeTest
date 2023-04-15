@@ -1,14 +1,29 @@
 import random
 
 from django.contrib.auth.decorators import login_required
+from django.db.models import Sum, Max, Min
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from .models import Topic, Question, Quiz, Choice, QuizQuestion
 from django.contrib import messages
 
+
 @login_required
 def index(request):
-    return render(request, 'quiz/index.html')
+    quizzes = Quiz.objects.filter(user=request.user).order_by('-quiz_date')
+    num_quizzes = quizzes.count()
+    total_score = quizzes.aggregate(Sum('score'))['score__sum']
+    avg_score = total_score / num_quizzes if num_quizzes > 0 else 0
+    highest_score = quizzes.aggregate(Max('score'))['score__max']
+    lowest_score = quizzes.aggregate(Min('score'))['score__min']
+    return render(request, 'quiz/index.html', {
+        'quizzes': quizzes,
+        'num_quizzes': num_quizzes,
+        'total_score': total_score,
+        'avg_score': avg_score,
+        'highest_score': highest_score,
+        'lowest_score': lowest_score,
+    })
 
 @login_required
 def select_topic(request):
@@ -92,4 +107,4 @@ def quiz_results(request, quiz_id):
         }
         return render(request, 'quiz/results.html', context)
     else:
-        return redirect('home:error')
+        return redirect('/error')
