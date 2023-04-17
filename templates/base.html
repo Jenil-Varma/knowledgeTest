@@ -19,12 +19,14 @@
                 background-color: #333;
                 color: white;
                 padding: 20px;
+                text-align: center;
             }
             nav ul {
                 list-style: none;
-                margin: 0;
+                margin: 1rem 0 0 0;
                 padding: 0;
                 display: flex;
+                justify-content: center;
             }
             nav ul li {
                 margin: 0 10px;
@@ -39,7 +41,7 @@
             main {
                 padding: 20px;
             }
-            h2 {
+            h1, h2 {
                 margin: 0;
             }
             .main-container {
@@ -65,7 +67,8 @@
                     <li><a href="{% url 'quiz:select_topic' %}">Take a quiz</a></li>
 {#                    <li><a href="{% url 'quiz:results' %}">Results</a></li>#}
                     <li><a href="{% url 'account:logout' %}">Logout</a></li>
-                    <li>| Welcome, <a href="{% url 'account:profile' %}">{{ user.first_name }}</a></li>
+                    <li>|</li>
+                    <li>Welcome, <a href="{% url 'account:profile' %}">{{ user.first_name }}</a></li>
                 {% else %}
                     <li><a href="{% url 'account:login' %}">Login</a></li>
                     <li><a href="{% url 'account:signup' %}">Signup</a></li>
