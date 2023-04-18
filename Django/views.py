@@ -1,8 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 
 def home(request):
-    return render(request, 'base.html')
+    return redirect('quiz:index')
+    #return render(request, 'base.html')
 
 
 def error(request):
