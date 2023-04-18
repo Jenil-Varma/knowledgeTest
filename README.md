@@ -66,9 +66,53 @@ KnowledgeTest is a web application for creating and taking quizzes. This project
     ├────── db.sqlite3 
     └────── manage.py
 
+## Database diagram
+![dbDiagram.png](images%2FdbDiagram.png)
+
 ## Getting Started
 To get started with the project, follow these steps:
 
-**Installation**
-- installation details here
+**Setup python interpreter**
+- Go to File => Settings => Project: KnowledgeTest => Python Interpreter.
+Select Add Interpreter => Add Local Interpreter
+![interpretersetting.png](images%2Finterpretersetting.png)
 
+- Keep all default settings then click OK
+![interpretersetting2.png](images%2Finterpretersetting2.png)
+![interpretersetting3.png](images%2Finterpretersetting3.png)
+
+
+**Edit Configurations**
+- Run => Edit Configurations
+![editConfig1.png](images%2FeditConfig1.png)
+- Config parameters<br>
+Script path: select manage.py file <br>
+Parameters: runserver
+![editConfig2.png](images%2FeditConfig2.png)
+
+**Start the project**
+![startProject.png](images%2FstartProject.png)
+
+## Common issues
+**Cannot start the project - Django hasn't installed**
+- Couldn't import Django. Are you sure it's installed and available on your PYTHONPATH environment variable? Did you forget to activate a virtual environment?
+![issue1.png](images%2Fissue1.png)
+- Causes: Django hasn't installed
+- Solution: <br>
+Install Django for the project <br>
+Open terminal: <br>
+```cmd
+Set-ExecutionPolicy Unrestricted -Scope Process
+venv\Scripts\activate.ps1
+ ```
+![issue2.png](images%2Fissue2.png)
+
+Install Django
+```cmd
+pip install django
+ ```
+![issue3.png](images%2Fissue3.png)
+
+Start the project
+![startProject.png](images%2FstartProject.png)
+![startSuccess.png](images%2FstartSuccess.png)
