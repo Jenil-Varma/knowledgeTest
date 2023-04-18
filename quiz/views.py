@@ -13,7 +13,7 @@ def index(request):
     quizzes = Quiz.objects.filter(user=request.user).order_by('-quiz_date')
     num_quizzes = quizzes.count()
     total_score = quizzes.aggregate(Sum('score'))['score__sum']
-    avg_score = total_score / num_quizzes if num_quizzes > 0 else 0
+    avg_score = round(total_score / num_quizzes, 2) if num_quizzes > 0 else 0
     highest_score = quizzes.aggregate(Max('score'))['score__max']
     lowest_score = quizzes.aggregate(Min('score'))['score__min']
     return render(request, 'quiz/index.html', {
