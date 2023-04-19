@@ -116,3 +116,7 @@ pip install django
 Start the project
 ![startProject.png](images%2FstartProject.png)
 ![startSuccess.png](images%2FstartSuccess.png)
+
+## Admin account
+username: admin <br>
+password: password
