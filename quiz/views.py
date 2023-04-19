@@ -95,16 +95,20 @@ def submit_quiz(request):
 
 @login_required
 def quiz_results(request, quiz_id):
-    quiz = get_object_or_404(Quiz, pk=quiz_id)
-    if quiz.user.id == request.user.id:
-        quiz_questions = QuizQuestion.objects.filter(quiz=quiz)
-        topic_id = quiz_questions[0].question.topic.id
-        topic_name = Topic.objects.get(id=topic_id)
-        context = {
-            'topic_name': topic_name,
-            'quiz': quiz,
-            'quiz_questions': quiz_questions,
-        }
-        return render(request, 'quiz/results.html', context)
-    else:
+    #quiz = get_object_or_404(Quiz, pk=quiz_id)
+    try:
+        quiz = Quiz.objects.get(pk=quiz_id)
+        if quiz.user.id == request.user.id:
+            quiz_questions = QuizQuestion.objects.filter(quiz=quiz)
+            topic_id = quiz_questions[0].question.topic.id
+            topic_name = Topic.objects.get(id=topic_id)
+            context = {
+                'topic_name': topic_name,
+                'quiz': quiz,
+                'quiz_questions': quiz_questions,
+            }
+            return render(request, 'quiz/results.html', context)
+        else:
+            return redirect('/error')
+    except Quiz.DoesNotExist:
         return redirect('/error')
